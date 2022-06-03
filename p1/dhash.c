@@ -122,10 +122,10 @@ dhash_t *hash_create(int size)
 
 int hash_insert(dhash_t *ptr, char *str)
 {
+  check_size(ptr);
+
   unsigned int hashkey1 = hash_ends(str) % ptr->size;
   unsigned int hashkey2 = hash_all(str);
-
-  check_size(ptr);
 
   while (ptr->array[hashkey1] != NULL)
   {
