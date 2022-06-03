@@ -1,7 +1,7 @@
-all:p1
+all:p2
 
-p1:dhash.c main.c
+p2:shash.c main.c
 	gcc -Wall -Wextra -Wfloat-equal -pedantic -ansi -O2 -o $@ $^
 
 clean:
-	rm -f p1
+	rm -f p2
