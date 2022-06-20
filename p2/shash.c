@@ -5,14 +5,14 @@
 #define PRIME 31
 #define RANGE 0.6
 void check_size(dhash_t *ptr);
-static unsigned int hash_ends(char *str);
+static unsigned int hash_all(char *str);
 int getPrime(int num);
 dhash_t *hash_create(int size);
 int hash_insert(dhash_t *ptr, char *str);
 int hash_search(dhash_t *ptr, char *str, int *count);
 int hash_free(dhash_t *ptr);
 
-static unsigned int hash_ends(char *str)
+static unsigned int hash_all(char *str)
 {
   int i;
   int n = strlen(str);
@@ -113,7 +113,7 @@ int hash_insert(dhash_t *ptr, char *str)
 
   check_size(ptr);
 
-  hashkey1 = hash_ends(str) % ptr->size;
+  hashkey1 = hash_all(str) % ptr->size;
   nptr = &(ptr->array[hashkey1]);
 
   while (nptr->next != NULL)
@@ -143,7 +143,7 @@ int hash_insert(dhash_t *ptr, char *str)
 
 int hash_search(dhash_t *ptr, char *str, int *count)
 {
-  unsigned int hashkey1 = hash_ends(str) % ptr->size;
+  unsigned int hashkey1 = hash_all(str) % ptr->size;
 
   node_t *nptr = &(ptr->array[hashkey1]);
 

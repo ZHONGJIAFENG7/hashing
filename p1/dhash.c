@@ -5,7 +5,7 @@
 #define PRIME 31
 #define RANGE 0.6
 
-static unsigned int hash_ends(char *str)
+static unsigned int hash_all(char *str)
 {
   int i;
   int n = strlen(str);
@@ -19,7 +19,7 @@ static unsigned int hash_ends(char *str)
   return hash;
 }
 
-static unsigned int hash_all(char *str)
+static unsigned int hash_ends(char *str)
 {
   int c1, c2, cn1, cn2;
   int hash;
@@ -57,8 +57,8 @@ int getPrime(int num)
 
 int hash_insert_t(dhash_t *ptr, char *str)
 {
-  unsigned int hashkey1 = hash_ends(str) % ptr->size;
-  unsigned int hashkey2 = hash_all(str);
+  unsigned int hashkey1 = hash_all(str) % ptr->size;
+  unsigned int hashkey2 = hash_ends(str);
 
   while (ptr->array[hashkey1] != NULL)
   {
@@ -127,8 +127,8 @@ int hash_insert(dhash_t *ptr, char *str)
 
   check_size(ptr);
 
-  hashkey1 = hash_ends(str) % ptr->size;
-  hashkey2 = hash_all(str);
+  hashkey1 = hash_all(str) % ptr->size;
+  hashkey2 = hash_ends(str);
 
   while (ptr->array[hashkey1] != NULL)
   {
@@ -144,8 +144,8 @@ int hash_insert(dhash_t *ptr, char *str)
 
 int hash_search(dhash_t *ptr, char *str, int *count)
 {
-  unsigned int hashkey1 = hash_ends(str) % ptr->size;
-  unsigned int hashkey2 = hash_all(str);
+  unsigned int hashkey1 = hash_all(str) % ptr->size;
+  unsigned int hashkey2 = hash_ends(str);
   *count = 0;
 
   while (ptr->array[hashkey1] != NULL)
