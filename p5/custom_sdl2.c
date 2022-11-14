@@ -38,7 +38,6 @@ void Custom_SDL_Init(SDL_Simplewin *sw)
   SDL_RenderPresent(sw->renderer);
 }
 
-/* Gobble all events & ignore most */
 void Custom_SDL_Events(SDL_Simplewin *sw)
 {
   SDL_Event event;
@@ -54,44 +53,10 @@ void Custom_SDL_Events(SDL_Simplewin *sw)
   }
 }
 
-/* Trivial wrapper to avoid complexities of renderer & alpha channels */
 void Custom_SDL_SetDrawColour(SDL_Simplewin *sw, Uint8 r, Uint8 g, Uint8 b)
 {
 
   SDL_SetRenderDrawColor(sw->renderer, r, g, b, SDL_ALPHA_OPAQUE);
-}
-
-/* Filled Circle centred at (cx,cy) of radius r, see :
-   http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles */
-void Custom_SDL_RenderFillCircle(SDL_Renderer *rend, int cx, int cy, int r)
-{
-
-  double dy;
-  for (dy = 1; dy <= r; dy += 1.0)
-  {
-    double dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
-    SDL_RenderDrawLine(rend, cx - dx, cy + r - dy, cx + dx, cy + r - dy);
-    SDL_RenderDrawLine(rend, cx - dx, cy - r + dy, cx + dx, cy - r + dy);
-  }
-}
-
-/* Circle centred at (cx,cy) of radius r, see :
-   http://content.gpwiki.org/index.php/SDL:Tutorials:Drawing_and_Filling_Circles */
-void Custom_SDL_RenderDrawCircle(SDL_Renderer *rend, int cx, int cy, int r)
-{
-
-  double dx, dy;
-  dx = floor(sqrt((2.0 * r)));
-  SDL_RenderDrawLine(rend, cx - dx, cy + r, cx + dx, cy + r);
-  SDL_RenderDrawLine(rend, cx - dx, cy - r, cx + dx, cy - r);
-  for (dy = 1; dy <= r; dy += 1.0)
-  {
-    dx = floor(sqrt((2.0 * r * dy) - (dy * dy)));
-    SDL_RenderDrawPoint(rend, cx + dx, cy + r - dy);
-    SDL_RenderDrawPoint(rend, cx + dx, cy - r + dy);
-    SDL_RenderDrawPoint(rend, cx - dx, cy + r - dy);
-    SDL_RenderDrawPoint(rend, cx - dx, cy - r + dy);
-  }
 }
 
 void Custom_SDL_DrawString(SDL_Simplewin *sw, fntrow fontdata[FNTCHARS][FNTHEIGHT], char *str, int ox, int oy)
@@ -132,23 +97,4 @@ void Custom_SDL_DrawChar(SDL_Simplewin *sw, fntrow fontdata[FNTCHARS][FNTHEIGHT]
     }
     printf("\n");
   }
-}
-
-void Custom_SDL_ReadFont(fntrow fontdata[FNTCHARS][FNTHEIGHT], char *fname)
-{
-
-  FILE *fp = fopen(fname, "rb");
-  size_t itms;
-  if (!fp)
-  {
-    fprintf(stderr, "Can't open Font file %s\n", fname);
-    exit(1);
-  }
-  itms = fread(fontdata, sizeof(fntrow), FNTCHARS * FNTHEIGHT, fp);
-  if (itms != FNTCHARS * FNTHEIGHT)
-  {
-    fprintf(stderr, "Can't read all Font file %s (%d) \n", fname, (int)itms);
-    exit(1);
-  }
-  fclose(fp);
 }
